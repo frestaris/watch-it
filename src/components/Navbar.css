@@ -1,0 +1,33 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #282c34;
+  padding: 10px 20px;
+  color: white;
+  position: relative;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  padding-right: 5px;
+  white-space: nowrap;
+}
+
+.search {
+  flex-grow: 1;
+  max-width: 300px;
+  min-width: 100px;
+  padding: 8px;
+  border-radius: 4px;
+  border: none;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 500px) {
+  .search-bar {
+    max-width: 250px;
+  }
+}

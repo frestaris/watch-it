@@ -1,0 +1,26 @@
+/* main.css */
+.main {
+  flex-grow: 1;
+  background-color: #ffffff;
+  overflow-y: auto;
+}
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 0 5px;
+}
+
+.movie-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  padding: 10px;
+}
+
+.movie-poster {
+  width: 100%;
+  height: auto;
+}
