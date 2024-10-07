@@ -3,13 +3,14 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Main from "./components/Main";
 import MovieDetail from "./components/MovieDetail";
-import clapperboard from "./assets/clapperboard.png";
+import video from "./assets/video.png";
 
 const App = () => {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [watched, setWatched] = useState(() => {
     const storedValue = localStorage.getItem("watched");
     return JSON.parse(storedValue) || [];
@@ -55,6 +56,7 @@ const App = () => {
 
   const fetchMovies = useCallback(
     async (pageNum) => {
+      setIsLoading(true);
       try {
         const response = await fetch(
           `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_API_KEY}&s=${query}&page=${pageNum}`
@@ -69,6 +71,8 @@ const App = () => {
         setTotalResults(data.totalResults || 0);
       } catch (error) {
         console.log(error.message);
+      } finally {
+        setIsLoading(false);
       }
     },
     [query]
@@ -120,9 +124,6 @@ const App = () => {
         <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
           {isSidebarOpen ? (
             <>
-              <button className="close-button" onClick={handleCloseSidebar}>
-                X
-              </button>
               <Sidebar
                 watched={watched}
                 onDeleteWatched={handleDeleteWatched}
@@ -132,7 +133,7 @@ const App = () => {
             </>
           ) : (
             <div className="toggle-icon" onClick={handleClickHamburger}>
-              <img src={clapperboard} alt="clapper board" />
+              <img src={video} alt="clapper board" />
               <div className="column-text">
                 <div>
                   <p>Y</p>
@@ -150,7 +151,9 @@ const App = () => {
             </div>
           )}
         </div>
-        {!selectedId ? (
+        {isLoading ? (
+          <div className="loader"></div>
+        ) : !selectedId ? (
           <Main
             movies={movies}
             onSelectMovie={handleSelectMovie}

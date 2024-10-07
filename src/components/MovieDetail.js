@@ -85,7 +85,7 @@ const MovieDetail = ({ selectedId, onCloseMovie, watched, onAddWatched }) => {
     <div className="details">
       <div className="hero">
         {loading ? (
-          <div className="loading">Loading...</div>
+          <div className="loader"></div>
         ) : (
           <img
             className="hero-image"

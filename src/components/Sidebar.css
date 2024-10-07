@@ -8,13 +8,15 @@
   color: white;
   text-align: center;
 }
-
+.sidebar h2 {
+  padding-left: 5px;
+}
 .card,
 .card-container {
   position: relative;
   width: 100%;
   box-sizing: border-box;
-  padding: 2.5px 5px;
+  padding: 3px 5px;
 }
 
 .card-image {
@@ -47,4 +49,29 @@
 
 .delete-button:hover {
   background: darkred;
+}
+
+.top-sidebar {
+  padding: 2px;
+  border-radius: 5px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  backdrop-filter: blur(10px);
+}
+
+.close-button {
+  padding-right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: white;
+  z-index: 1;
+}
+
+.close-button:hover {
+  color: red;
 }

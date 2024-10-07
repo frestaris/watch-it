@@ -4,7 +4,9 @@ import "./Sidebar.css";
 const Sidebar = ({ watched, onDeleteWatched, onSelectMovie, isOpen }) => {
   return (
     <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
-      <h2>Your Movies: {watched.length}</h2>
+      <div className="top-sidebar">
+        <h2>Your Movies: {watched.length}</h2>
+      </div>
       {watched.length === 0 ? (
         <p>No movies watched yet.</p>
       ) : (

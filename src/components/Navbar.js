@@ -1,13 +1,13 @@
 import React from "react";
 import Search from "./Search";
 import "./Navbar.css";
-import cinemaLogo from "../assets/cinema-camera.png";
+import logo from "../assets/logo.png";
 
 const Navbar = ({ setQuery }) => {
   return (
     <div className="navbar">
       <div className="logo">
-        <img src={cinemaLogo} alt="Cinema Logo" />
+        <img src={logo} alt="Cinema Logo" />
         <div>Watch it!</div>
       </div>
       <Search setQuery={setQuery} />

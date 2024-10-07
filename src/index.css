@@ -17,16 +17,37 @@ body {
 
 .sidebar {
   width: 250px;
+  margin-bottom: 50px;
   transition: width 0.3s ease;
   background-color: transparent;
   height: 100%;
   flex-shrink: 0;
+  position: relative;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
 .toggle-icon {
   display: none;
+}
+
+.loader {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 500px) {
@@ -43,7 +64,7 @@ body {
     font-size: 2rem;
     height: 100%;
     cursor: pointer;
-    background-image: linear-gradient(to right, #2c3e50, #4ca1af);
+    background-image: linear-gradient(to top, #9e1f36, #3c2b5b);
     color: white;
     border-radius: 8px;
   }
@@ -76,28 +97,6 @@ body {
   }
 
   .sidebar.open .toggle-icon {
-    display: none;
-  }
-}
-
-.close-button {
-  position: absolute;
-  top: 115px;
-  right: 30px;
-  background: none;
-  border: none;
-  font-size: 1.5em;
-  cursor: pointer;
-  color: #333;
-  z-index: 1;
-}
-
-.close-button:hover {
-  color: red;
-}
-
-@media (min-width: 500px) {
-  .close-button {
     display: none;
   }
 }
