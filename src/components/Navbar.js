@@ -5,7 +5,7 @@ import "./Navbar.css";
 const Navbar = ({ setQuery }) => {
   return (
     <div className="navbar">
-      <div className="logo">Watched it!</div>
+      <div className="logo">Watch it!</div>
       <Search setQuery={setQuery} />
     </div>
   );

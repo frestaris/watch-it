@@ -2,8 +2,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #282c34;
+  background-image: linear-gradient(to right, #2c3e50, #4ca1af);
   padding: 10px 20px;
+  margin: 15px;
+  border-radius: 5px;
   color: white;
   position: relative;
 }

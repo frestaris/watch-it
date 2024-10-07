@@ -93,15 +93,15 @@ const MovieDetail = ({ selectedId, onCloseMovie, watched, onAddWatched }) => {
         <p>Duration: {runtime}</p>
         <p>Genre: {genre}</p>
         <p>
+          IMDB Rating - {imdbRating}
           <span>⭐</span>
-          {imdbRating} IMDB Rating
         </p>
 
         <div className="rating">
           {isWatched ? (
             <p>
+              Your Rating - {watchedUserRating}
               <span>⭐</span>
-              {watchedUserRating} Your Rating
             </p>
           ) : (
             <>

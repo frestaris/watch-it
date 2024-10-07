@@ -1,25 +1,44 @@
 * {
   box-sizing: border-box;
-  margin: 0;
   padding: 0;
+}
+html,
+body {
+  background-image: linear-gradient(to right, #434343 0%, black 100%);
+  font-family: "Play", sans-serif;
+  height: 100%;
+  overflow: hidden;
 }
 .app-container {
   display: flex;
   width: 100%;
-  height: calc(100vh - 60px);
-  overflow: hidden;
+  height: calc(100vh - 90px);
+}
+
+.load-more {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff; /* Customize the background color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.load-more:hover {
+  background-color: #0056b3; /* Darker shade on hover */
 }
 
 .sidebar {
   width: 250px;
   transition: width 0.3s ease;
-  background-color: #212121;
-  border-right: 1px solid #ccc;
-  height: calc(100vh - 60px);
+  background-color: transparent;
+  height: 100%;
   flex-shrink: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  border-radius: 10px;
 }
 
 .toggle-icon {
@@ -40,7 +59,9 @@
     font-size: 2rem;
     height: 100%;
     cursor: pointer;
-    background: #ccc;
+    background-image: linear-gradient(to right, #2c3e50, #4ca1af);
+    color: white;
+    border-radius: 8px;
   }
 
   .column-text {
