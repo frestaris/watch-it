@@ -57,7 +57,7 @@ const App = () => {
     async (pageNum) => {
       try {
         const response = await fetch(
-          `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_API_KEY}&s=${query}&page=${pageNum}`
+          `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_API_KEY}&s=${query}&page=${pageNum}`
         );
         const data = await response.json();
 

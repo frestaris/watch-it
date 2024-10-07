@@ -43,7 +43,7 @@ const MovieDetail = ({ selectedId, onCloseMovie, watched, onAddWatched }) => {
     async function getMovieDetails() {
       setLoading(true);
       const res = await fetch(
-        `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_API_KEY}&i=${selectedId}`
+        `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_API_KEY}&i=${selectedId}`
       );
       const data = await res.json();
       setMovie(data);
