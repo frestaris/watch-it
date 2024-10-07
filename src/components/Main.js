@@ -1,7 +1,7 @@
 import React from "react";
 import "./Main.css";
 
-const Main = ({ movies, onSelectMovie, onAddWatched }) => {
+const Main = ({ movies, onSelectMovie }) => {
   return (
     <div className="main">
       <div className="movie-grid">
@@ -18,15 +18,6 @@ const Main = ({ movies, onSelectMovie, onAddWatched }) => {
                 className="card-image"
               />
             )}
-            <button
-              className="add-button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onAddWatched(movie);
-              }}
-            >
-              +
-            </button>
           </div>
         ))}
       </div>

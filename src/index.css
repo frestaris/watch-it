@@ -3,7 +3,6 @@
   margin: 0;
   padding: 0;
 }
-
 .app-container {
   display: flex;
   width: 100%;
@@ -14,12 +13,13 @@
 .sidebar {
   width: 250px;
   transition: width 0.3s ease;
-  background: #cccccc;
+  background-color: #212121;
   border-right: 1px solid #ccc;
   height: calc(100vh - 60px);
   flex-shrink: 0;
   overflow-y: auto;
   overflow-x: hidden;
+  border-radius: 10px;
 }
 
 .toggle-icon {
@@ -33,12 +33,33 @@
 
   .toggle-icon {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     padding-top: 10px;
     font-size: 2rem;
     height: 100%;
     cursor: pointer;
     background: #ccc;
+  }
+
+  .column-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .column-text div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0;
+  }
+
+  .column-text p {
+    margin: 10px 0;
+    font-size: 1.8rem;
   }
 
   .sidebar.open {

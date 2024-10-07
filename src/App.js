@@ -16,6 +16,10 @@ const App = () => {
 
   const handleSelectMovie = (id) => {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
+
+    if (window.innerWidth <= 500) {
+      setIsSidebarOpen(false);
+    }
   };
 
   const handleAddWatched = (movie) => {
@@ -105,26 +109,32 @@ const App = () => {
               <Sidebar
                 watched={watched}
                 onDeleteWatched={handleDeleteWatched}
-                onSelectMovie={(id) => {
-                  handleSelectMovie(id);
-                  handleCloseSidebar(); // Close the sidebar when a movie is selected
-                }}
+                onSelectMovie={handleSelectMovie}
                 isOpen={isSidebarOpen}
-                onCloseSidebar={handleCloseSidebar}
               />
             </>
           ) : (
             <div className="toggle-icon" onClick={handleClickHamburger}>
               ☰
+              <div className="column-text">
+                <div>
+                  <p>Y</p>
+                  <p>O</p>
+                  <p>U</p>
+                  <p>R</p>
+                </div>
+                <div>
+                  <p>L</p>
+                  <p>I</p>
+                  <p>S</p>
+                  <p>T</p>
+                </div>
+              </div>
             </div>
           )}
         </div>
         {!selectedId ? (
-          <Main
-            movies={movies}
-            onSelectMovie={handleSelectMovie}
-            onAddWatched={handleAddWatched}
-          />
+          <Main movies={movies} onSelectMovie={handleSelectMovie} />
         ) : (
           <MovieDetail
             selectedId={selectedId}
