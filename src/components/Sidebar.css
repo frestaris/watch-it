@@ -70,8 +70,14 @@
   cursor: pointer;
   color: white;
   z-index: 1;
+  display: none;
 }
 
 .close-button:hover {
   color: red;
+}
+@media (max-width: 500px) {
+  .close-button {
+    display: block;
+  }
 }

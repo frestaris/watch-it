@@ -129,6 +129,7 @@ const App = () => {
                 onDeleteWatched={handleDeleteWatched}
                 onSelectMovie={handleSelectMovie}
                 isOpen={isSidebarOpen}
+                handleCloseSidebar={handleCloseSidebar}
               />
             </>
           ) : (
