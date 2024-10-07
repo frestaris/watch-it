@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
-import StarRatings from "react-star-ratings"; // Import the StarRatings component
+import StarRatings from "react-star-ratings";
 import "./MovieDetail.css";
 
-const MovieDetail = ({
-  selectedId,
-  onCloseMovie,
-  onAddWatched,
-  watched,
-  setWatched,
-}) => {
+const MovieDetail = ({ selectedId, onCloseMovie, watched, onAddWatched }) => {
   const [movie, setMovie] = useState({});
-  const [userRating, setUserRating] = useState(0); // Initialize with a number (0)
+  const [userRating, setUserRating] = useState(0);
   const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
   const watchedUserRating =
-    watched.find((movie) => movie.imdbID === selectedId)?.userRating || 0; // Default to 0 if not found
+    watched.find((movie) => movie.imdbID === selectedId)?.userRating || 0;
 
   const {
     Title: title,
@@ -32,20 +26,15 @@ const MovieDetail = ({
   };
 
   function handleAdd() {
-    const newWatchedMovie = {
-      imdbID: selectedId,
-      title,
-      poster,
-      imdbRating: Number(imdbRating),
-      runtime: Number(runtime.replace(/\D/g, "")),
-      userRating,
-    };
-
-    // Call the parent function to add to watched list
-    onAddWatched(newWatchedMovie);
-
-    // Update the local state
-    setWatched((watched) => [...watched, newWatchedMovie]);
+    if (userRating > 0) {
+      const newWatchedMovie = {
+        ...movie,
+        userRating: userRating,
+      };
+      onAddWatched(newWatchedMovie);
+    } else {
+      alert("Rate the movie first.");
+    }
   }
 
   useEffect(() => {
@@ -55,9 +44,12 @@ const MovieDetail = ({
       );
       const data = await res.json();
       setMovie(data);
-      // If the movie has been watched, set the user rating
-      if (isWatched) {
+
+      // Only set user rating from watched if it's already rated
+      if (isWatched && watchedUserRating > 0) {
         setUserRating(watchedUserRating);
+      } else {
+        setUserRating(0); // Reset user rating to allow rating
       }
     }
     getMovieDetails();
@@ -75,15 +67,23 @@ const MovieDetail = ({
     };
   }, [onCloseMovie]);
 
+  useEffect(
+    function () {
+      if (!title) return;
+      document.title = `Movie | ${title}`;
+      return function () {
+        document.title = "Watched it!";
+      };
+    },
+    [title]
+  );
+
   return (
     <div className="details">
       <div className="hero">
         <img className="hero-image" src={poster} alt={`Poster of ${title}`} />
         <button className="btn-back" onClick={onCloseMovie}>
           &larr; Back
-        </button>
-        <button className="btn-add" onClick={handleAdd}>
-          +
         </button>
       </div>
 
@@ -96,8 +96,14 @@ const MovieDetail = ({
           <span>⭐</span>
           {imdbRating} IMDB Rating
         </p>
+
         <div className="rating">
-          {!isWatched ? (
+          {isWatched ? (
+            <p>
+              <span>⭐</span>
+              {watchedUserRating} Your Rating
+            </p>
+          ) : (
             <>
               <StarRatings
                 rating={userRating}
@@ -108,11 +114,17 @@ const MovieDetail = ({
                 numberOfStars={10}
                 changeRating={handleRating}
               />
+              {!isWatched ? (
+                <button className="btn-add" onClick={handleAdd}>
+                  Add
+                </button>
+              ) : (
+                ""
+              )}
             </>
-          ) : (
-            <p>You rated this movie {watchedUserRating}</p>
           )}
         </div>
+
         <p>
           <em>{plot}</em>
         </p>

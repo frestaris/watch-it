@@ -9,7 +9,41 @@ const App = () => {
   const [movies, setMovies] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
-  const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState(function () {
+    const storedValue = localStorage.getItem("watched");
+    return JSON.parse(storedValue);
+  });
+
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (id === selectedId ? null : id));
+  };
+
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => {
+      const isMovieWatched = watched.some(
+        (watchedMovie) => watchedMovie.imdbID === movie.imdbID
+      );
+      if (!isMovieWatched) {
+        return [...watched, movie];
+      }
+      return watched;
+    });
+  };
+
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+
+  const handleClickHamburger = () => {
+    setIsSidebarOpen(true);
+  };
+
+  const handleCloseSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+  const handleCloseMovie = () => {
+    setSelectedId(null);
+  };
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -36,27 +70,12 @@ const App = () => {
     }
   }, [query]);
 
-  const handleSelectMovie = (id) => {
-    setSelectedId((selectedId) => (id === selectedId ? null : id));
-  };
-
-  const handleAddWatched = (movie) => {
-    setWatched((watched) => [...watched, movie]);
-  };
-  const handleDeleteWatched = (id) => {
-    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
-  };
-
-  const handleClickHamburger = () => {
-    setIsSidebarOpen(true);
-  };
-
-  const handleCloseSidebar = () => {
-    setIsSidebarOpen(false);
-  };
-  const handleCloseMovie = () => {
-    setSelectedId(null);
-  };
+  useEffect(
+    function () {
+      localStorage.setItem("watched", JSON.stringify(watched));
+    },
+    [watched]
+  );
 
   useEffect(() => {
     const handleResize = () => {
@@ -86,6 +105,9 @@ const App = () => {
               <Sidebar
                 watched={watched}
                 onDeleteWatched={handleDeleteWatched}
+                onSelectMovie={handleSelectMovie}
+                isOpen={isSidebarOpen}
+                onCloseSidebar={handleCloseSidebar}
               />
             </>
           ) : (
