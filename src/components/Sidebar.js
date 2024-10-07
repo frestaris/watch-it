@@ -28,7 +28,7 @@ const Sidebar = ({ watched, onDeleteWatched, onSelectMovie, isOpen }) => {
                   <button
                     className="delete-button"
                     onClick={(e) => {
-                      e.stopPropagation(); // Prevent click from firing on card
+                      e.stopPropagation();
                       onDeleteWatched(movie.imdbID);
                     }}
                   >

@@ -105,7 +105,10 @@ const App = () => {
               <Sidebar
                 watched={watched}
                 onDeleteWatched={handleDeleteWatched}
-                onSelectMovie={handleSelectMovie}
+                onSelectMovie={(id) => {
+                  handleSelectMovie(id);
+                  handleCloseSidebar(); // Close the sidebar when a movie is selected
+                }}
                 isOpen={isSidebarOpen}
                 onCloseSidebar={handleCloseSidebar}
               />
