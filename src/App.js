@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Main from "./components/Main";
 import MovieDetail from "./components/MovieDetail";
+import clapperboard from "./assets/clapperboard.png";
 
 const App = () => {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
-  const [watched, setWatched] = useState(function () {
+  const [watched, setWatched] = useState(() => {
     const storedValue = localStorage.getItem("watched");
-    return JSON.parse(storedValue);
+    return JSON.parse(storedValue) || [];
   });
+  const [page, setPage] = useState(1);
+  const [totalResults, setTotalResults] = useState(0);
 
   const handleSelectMovie = (id) => {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
@@ -45,15 +48,16 @@ const App = () => {
   const handleCloseSidebar = () => {
     setIsSidebarOpen(false);
   };
+
   const handleCloseMovie = () => {
     setSelectedId(null);
   };
 
-  useEffect(() => {
-    const fetchMovies = async () => {
+  const fetchMovies = useCallback(
+    async (pageNum) => {
       try {
         const response = await fetch(
-          `http://www.omdbapi.com/?apikey=290d53a8&s=${query}`
+          `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_API_KEY}&s=${query}&page=${pageNum}`
         );
         const data = await response.json();
 
@@ -61,25 +65,38 @@ const App = () => {
           throw new Error("Something went wrong while fetching movies.");
         }
 
-        setMovies(data.Search || []);
+        setMovies((prevMovies) => [...prevMovies, ...(data.Search || [])]);
+        setTotalResults(data.totalResults || 0);
       } catch (error) {
         console.log(error.message);
       }
-    };
+    },
+    [query]
+  );
 
+  useEffect(() => {
     if (query.length > 2) {
-      fetchMovies();
+      setMovies([]);
+      setPage(1);
+      fetchMovies(1);
     } else {
       setMovies([]);
     }
-  }, [query]);
+  }, [query, fetchMovies]);
 
-  useEffect(
-    function () {
-      localStorage.setItem("watched", JSON.stringify(watched));
-    },
-    [watched]
-  );
+  const loadMoreMovies = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  useEffect(() => {
+    if (page > 1) {
+      fetchMovies(page);
+    }
+  }, [page, fetchMovies]);
+
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -115,7 +132,7 @@ const App = () => {
             </>
           ) : (
             <div className="toggle-icon" onClick={handleClickHamburger}>
-              ☰
+              <img src={clapperboard} alt="clapper board" />
               <div className="column-text">
                 <div>
                   <p>Y</p>
@@ -134,7 +151,12 @@ const App = () => {
           )}
         </div>
         {!selectedId ? (
-          <Main movies={movies} onSelectMovie={handleSelectMovie} />
+          <Main
+            movies={movies}
+            onSelectMovie={handleSelectMovie}
+            totalResults={totalResults}
+            loadMoreMovies={loadMoreMovies}
+          />
         ) : (
           <MovieDetail
             selectedId={selectedId}

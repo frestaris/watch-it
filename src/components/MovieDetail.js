@@ -5,6 +5,8 @@ import "./MovieDetail.css";
 const MovieDetail = ({ selectedId, onCloseMovie, watched, onAddWatched }) => {
   const [movie, setMovie] = useState({});
   const [userRating, setUserRating] = useState(0);
+  const [loading, setLoading] = useState(true);
+
   const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
   const watchedUserRating =
     watched.find((movie) => movie.imdbID === selectedId)?.userRating || 0;
@@ -39,17 +41,18 @@ const MovieDetail = ({ selectedId, onCloseMovie, watched, onAddWatched }) => {
 
   useEffect(() => {
     async function getMovieDetails() {
+      setLoading(true);
       const res = await fetch(
-        `http://www.omdbapi.com/?apikey=290d53a8&i=${selectedId}`
+        `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_API_KEY}&i=${selectedId}`
       );
       const data = await res.json();
       setMovie(data);
+      setLoading(false);
 
-      // Only set user rating from watched if it's already rated
       if (isWatched && watchedUserRating > 0) {
         setUserRating(watchedUserRating);
       } else {
-        setUserRating(0); // Reset user rating to allow rating
+        setUserRating(0);
       }
     }
     getMovieDetails();
@@ -81,56 +84,67 @@ const MovieDetail = ({ selectedId, onCloseMovie, watched, onAddWatched }) => {
   return (
     <div className="details">
       <div className="hero">
-        <img className="hero-image" src={poster} alt={`Poster of ${title}`} />
+        {loading ? (
+          <div className="loading">Loading...</div>
+        ) : (
+          <img
+            className="hero-image"
+            src={poster ? poster : loading}
+            alt={`Poster of ${title}`}
+          />
+        )}
+
         <button className="btn-back" onClick={onCloseMovie}>
           &larr; Back
         </button>
       </div>
 
-      <div className="hero-overview">
-        <h2>{title}</h2>
-        <p>Published: {released}</p>
-        <p>Duration: {runtime}</p>
-        <p>Genre: {genre}</p>
-        <p>
-          IMDB Rating - {imdbRating}
-          <span>⭐</span>
-        </p>
+      {!loading && (
+        <div className="hero-overview">
+          <h2>{title}</h2>
+          <p>Published: {released}</p>
+          <p>Duration: {runtime}</p>
+          <p>Genre: {genre}</p>
+          <p>
+            IMDB Rating - {imdbRating}
+            <span>⭐</span>
+          </p>
 
-        <div className="rating">
-          {isWatched ? (
-            <p>
-              Your Rating - {watchedUserRating}
-              <span>⭐</span>
-            </p>
-          ) : (
-            <>
-              <StarRatings
-                rating={userRating}
-                starRatedColor="#e7be35"
-                starHoverColor="#e7be35"
-                starDimension="24px"
-                starSpacing="2px"
-                numberOfStars={10}
-                changeRating={handleRating}
-              />
-              {!isWatched ? (
-                <button className="btn-add" onClick={handleAdd}>
-                  Add
-                </button>
-              ) : (
-                ""
-              )}
-            </>
-          )}
+          <div className="rating">
+            {isWatched ? (
+              <p>
+                Your Rating - {watchedUserRating}
+                <span>⭐</span>
+              </p>
+            ) : (
+              <>
+                <StarRatings
+                  rating={userRating}
+                  starRatedColor="#e7be35"
+                  starHoverColor="#e7be35"
+                  starDimension="24px"
+                  starSpacing="2px"
+                  numberOfStars={10}
+                  changeRating={handleRating}
+                />
+                {!isWatched ? (
+                  <button className="btn-add" onClick={handleAdd}>
+                    Add
+                  </button>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </div>
+
+          <p>
+            <em>{plot}</em>
+          </p>
+          <p>Starring: {actors}</p>
+          <p>Directed by: {director}</p>
         </div>
-
-        <p>
-          <em>{plot}</em>
-        </p>
-        <p>Starring: {actors}</p>
-        <p>Directed by: {director}</p>
-      </div>
+      )}
     </div>
   );
 };

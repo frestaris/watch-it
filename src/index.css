@@ -15,22 +15,6 @@ body {
   height: calc(100vh - 90px);
 }
 
-.load-more {
-  display: block;
-  margin: 20px auto;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #007bff; /* Customize the background color */
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.load-more:hover {
-  background-color: #0056b3; /* Darker shade on hover */
-}
-
 .sidebar {
   width: 250px;
   transition: width 0.3s ease;
@@ -98,8 +82,8 @@ body {
 
 .close-button {
   position: absolute;
-  top: 50px;
-  right: 15px;
+  top: 115px;
+  right: 30px;
   background: none;
   border: none;
   font-size: 1.5em;

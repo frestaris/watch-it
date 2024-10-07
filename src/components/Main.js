@@ -1,7 +1,8 @@
 import React from "react";
 import "./Main.css";
+import cinemaReel from "../assets/cinema-reel.png";
 
-const Main = ({ movies, onSelectMovie }) => {
+const Main = ({ movies, onSelectMovie, totalResults, loadMoreMovies }) => {
   return (
     <div className="main">
       <div className="movie-grid">
@@ -11,16 +12,19 @@ const Main = ({ movies, onSelectMovie }) => {
             className="movie-card"
             onClick={() => onSelectMovie(movie.imdbID)}
           >
-            {movie.Poster && (
-              <img
-                src={movie.Poster}
-                alt={movie.Title}
-                className="card-image"
-              />
-            )}
+            <img
+              className="card-image-main"
+              src={movie.Poster ? movie.Poster : cinemaReel}
+              alt={`Poster of ${movie.Title}`}
+            />
           </div>
         ))}
       </div>
+      {movies.length < totalResults && (
+        <button className="load-more" onClick={loadMoreMovies}>
+          Load More
+        </button>
+      )}
     </div>
   );
 };

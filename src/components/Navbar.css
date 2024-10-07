@@ -11,10 +11,18 @@
 }
 
 .logo {
+  display: flex;
+  align-items: center;
   font-size: 24px;
   font-weight: bold;
   padding-right: 5px;
   white-space: nowrap;
+}
+
+.logo img {
+  width: 40px;
+  height: auto;
+  margin-right: 10px;
 }
 
 .search {
