@@ -15,18 +15,17 @@ const Main = ({ movies, onSelectMovie, onAddWatched }) => {
               <img
                 src={movie.Poster}
                 alt={movie.Title}
-                className="movie-poster"
+                className="card-image"
               />
             )}
-            <h3>{movie.Title}</h3>
-            <p>{movie.Year}</p>
             <button
+              className="add-button"
               onClick={(e) => {
                 e.stopPropagation();
                 onAddWatched(movie);
               }}
             >
-              Add
+              +
             </button>
           </div>
         ))}
